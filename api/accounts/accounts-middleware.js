@@ -23,7 +23,7 @@ exports.checkAccountPayload = (req, res, next) => {
 exports.checkAccountNameUnique = async (req, res, next) => {
   // DO YOUR MAGIC
   const {name} = req.body
-  const nameInUse = await db('accounts').where('name', name.trim().first())
+  const nameInUse = await db('accounts').where('name', name.trim()).first()
 
   if(nameInUse){
   next({ status: 400, message: "that name is taken" })

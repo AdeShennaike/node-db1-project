@@ -23,16 +23,38 @@ router.get('/:id', checkAccountId, async (req, res, next) => {
   }
 })
 
-router.post('/', checkAccountNameUnique, checkAccountPayload, (req, res, next) => {
+router.post('/', checkAccountNameUnique, checkAccountPayload, async (req, res, next) => {
   // DO YOUR MAGIC
+  const {name, budget} = req.body
+
+  try{
+    const newAccount = await Accounts.create({name: name.trim(), budget: budget})
+    res.status(201).json(newAccount)
+  }catch(err){
+    next(err)
+  }
 })
 
-router.put('/:id', checkAccountId, checkAccountNameUnique, checkAccountPayload, (req, res, next) => {
+router.put('/:id', checkAccountId, checkAccountNameUnique, checkAccountPayload, async (req, res, next) => {
   // DO YOUR MAGIC
+  const {name, budget} = req.body
+  const change = {name: name.trim(), budget: budget}
+  try{
+    const account = await Accounts.update(change)
+    res.status(201).json(account)
+  }catch(err){
+    next(err)
+  }
 });
 
-router.delete('/:id', checkAccountId, (req, res, next) => {
+router.delete('/:id', checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
+  try{
+    const killAccount = await Accounts.deleteById(req.params.id)
+    res.json(killAccount)
+  }catch(err){
+    next(err)
+  }
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
