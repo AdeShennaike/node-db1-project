@@ -29,7 +29,7 @@ const deleteById = async id => {
   // DO YOUR MAGIC
   return await db('account')
   .where("id", id)
-  .del()
+  .delete()
 }
 
 module.exports = {
